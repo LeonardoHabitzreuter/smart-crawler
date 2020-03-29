@@ -1,7 +1,7 @@
 import ProfessionalPlanResolver from './professionalPlan/resolvers'
-import { buildFederatedSchema } from '~/lib/buildFederatedSchema'
+import { buildSchemaSync } from 'type-graphql'
 
-export const getSchema = buildFederatedSchema({
+export const schema = buildSchemaSync({
   resolvers: [
     ProfessionalPlanResolver
   ]
