@@ -8,13 +8,6 @@ export const fromURL = async (URL: string) => {
   return { document, window }
 }
 
-export const fromContent = (content: string) => {
-  const { window } = new JSDOM(content)
-  const { document } = window
-
-  return { window, document }
-}
-
 export const querySelectorAll = (selector: string) => ($parent: Element | Document) => (
   $parent.querySelectorAll(selector)
 )
@@ -22,5 +15,3 @@ export const querySelectorAll = (selector: string) => ($parent: Element | Docume
 export const querySelector = (selector: string) => ($parent: Element | Document) => (
   fromNullable($parent.querySelector(selector))
 )
-
-export default { fromURL, fromContent }
