@@ -1,8 +1,8 @@
-import { lookup } from 'fp-ts/lib/Array'
 import { fold, map, flatten } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { lookup } from 'fp-ts/lib/Array'
+import { flow } from 'fp-ts/lib/function'
+import { fromURL, querySelectorAll, querySelector, trimInnerHTML } from '~/lib/crawler'
 import { CRAWLER_ERROR, CONVERT_CURRENCY_ERROR } from '~/common/error'
-import { fromURL, querySelectorAll, querySelector } from '~/lib/crawler'
 import { convertBRLValue } from '~/common/currency'
 import { replace, trim } from '~/common/string'
 import { ProfessionalPlan, TransferPrice } from './types'
@@ -14,10 +14,19 @@ const getTransferPriceDiv = map(
   querySelector('.tarifas-2-2-2')
 )
 
+const getTransferTitleDiv = map(
+  querySelector('.cell-small-title')
+)
+
+const getTransferTitle = fold(
+  () => '',
+  trimInnerHTML
+)
+
 const getTransferPrice = fold(
   () => 0.0,
-  (div: Element) => pipe(
-    div.innerHTML,
+  flow(
+    trimInnerHTML,
     trim,
     replace('R$ ', ''),
     replace(',', '.'),
@@ -38,12 +47,17 @@ export const find = async (filters: ProfessionalPlanFilter): Promise<Professiona
     getTransferPriceDiv(transferRow)
   )
 
+  const transferTitleDiv = flatten(
+    getTransferTitleDiv(transferRow)
+  )
+
   const transferPrice = getTransferPrice(transferPriceDiv)
+  const transferDescription = getTransferTitle(transferTitleDiv)
 
   return {
-    queryDate: new Date(),
-    transferDescription: filters.siteUrl,
-    transferPrice
+    transferPrice,
+    transferDescription,
+    queryDate: new Date()
   }
 }
 
