@@ -1,4 +1,4 @@
-import { get } from '~/lib/request'
+import request from '~/lib/request'
 
 const CURRENCY_API = 'https://api.exchangeratesapi.io/latest'
 
@@ -14,7 +14,7 @@ const BRLToCurrency = (value: number) => (currency: number) => (
 )
 
 export const convertBRLValue = async (value: number) => {
-  const { data } = await get<CurrencyAPIResponse>(CURRENCY_API, {
+  const { data } = await request.get<CurrencyAPIResponse>(CURRENCY_API, {
     params: {
       base: 'BRL',
       symbols: 'EUR,USD'
