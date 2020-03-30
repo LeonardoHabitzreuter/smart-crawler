@@ -17,7 +17,7 @@ const getTransferPriceDiv = map(
 const getTransferTitleDiv = map(
   querySelector('.cell-small-title')
 )
-  
+
 const getTransferTitle = fold(
   () => '',
   trimInnerHTML
