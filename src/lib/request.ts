@@ -1,3 +1,5 @@
 import Axios from 'axios'
 
-export const get = Axios.get
+const axiosInstance = Axios.create()
+
+export default axiosInstance
