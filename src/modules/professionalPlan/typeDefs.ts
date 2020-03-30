@@ -1,4 +1,4 @@
-import { Field, ObjectType, InputType, Float } from 'type-graphql'
+import { Field, ObjectType, Float } from 'type-graphql'
 
 @ObjectType()
 export class TransferPrice {
@@ -10,12 +10,6 @@ export class TransferPrice {
 
   @Field(_type => Float)
   EUR: number
-}
-
-@InputType()
-export class ProfessionalPlanFilter {
-  @Field()
-  siteUrl: string
 }
 
 @ObjectType()

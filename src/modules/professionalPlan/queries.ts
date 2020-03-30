@@ -1,50 +1,35 @@
-import { lookup } from 'fp-ts/lib/Array'
-import { fold, map, flatten } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { CRAWLER_ERROR, CONVERT_CURRENCY_ERROR } from '~/common/error'
-import { fromURL, querySelectorAll, querySelector } from '~/lib/crawler'
+import db, { PROFESSIONAL_PLAN } from '~/lib/db'
+import { fold, fromNullable } from 'fp-ts/lib/Option'
+import { CONVERT_CURRENCY_ERROR } from '~/common/error'
 import { convertBRLValue } from '~/common/currency'
-import { replace, trim } from '~/common/string'
 import { ProfessionalPlan, TransferPrice } from './types'
-import { ProfessionalPlanFilter } from './typeDefs'
 
-const getTransferRow = querySelectorAll('#tarifas-2 > .row')
+const defResponse = {
+  queryDate: new Date(),
+  transferDescription: '',
+  transferPrice: 0.0
+}
 
-const getTransferPriceDiv = map(
-  querySelector('.tarifas-2-2-2')
+const handleResult = fold(
+  () => defResponse,
+  (result: string) => {
+    const obj = JSON.parse(result)
+    return {
+      queryDate: new Date(obj.queryDate),
+      transferDescription: obj.transferDescription,
+      transferPrice: obj.transferPrice
+    }
+  }
 )
 
-const getTransferPrice = fold(
-  () => 0.0,
-  (div: Element) => pipe(
-    div.innerHTML,
-    trim,
-    replace('R$ ', ''),
-    replace(',', '.'),
-    parseFloat
-  )
-)
-
-export const find = async (filters: ProfessionalPlanFilter): Promise<ProfessionalPlan> => {
-  const { document } = await fromURL(filters.siteUrl).catch(_ => {
-    throw CRAWLER_ERROR
+export const find = async (): Promise<ProfessionalPlan> => {
+  const result = await db.get(PROFESSIONAL_PLAN).catch((error: Error) => {
+    throw error
   })
 
-  const transferRow = lookup(2, Array.from(
-    getTransferRow(document)
+  return handleResult(fromNullable(
+    result
   ))
-
-  const transferPriceDiv = flatten(
-    getTransferPriceDiv(transferRow)
-  )
-
-  const transferPrice = getTransferPrice(transferPriceDiv)
-
-  return {
-    queryDate: new Date(),
-    transferDescription: filters.siteUrl,
-    transferPrice
-  }
 }
 
 export const convertTransferPrice = async (price: number): Promise<TransferPrice> => (
