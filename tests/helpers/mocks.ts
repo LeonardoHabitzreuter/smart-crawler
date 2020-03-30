@@ -1,15 +1,11 @@
-class ApolloServer {
-  public listen() {
+import { ApolloServer } from 'apollo-server'
+import { createTestClient } from 'apollo-server-testing'
+import { schema } from '~/modules/index'
 
-    return Promise.resolve({ url: 'mocked url' })
-  }
-}
+export const mockServer = () => {
+  const server = new ApolloServer({ schema })
 
-export const mockApolloServer = () => {
-  jest.mock('apollo-server', () => ({
-    toApolloError: jest.fn(),
-    ApolloServer
-  }))
+  return createTestClient(server)
 }
 
 export const mockAxios = () => {

@@ -7,7 +7,7 @@
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "dev": "nodemon src/index.ts",
     "test": "jest ./tests/unit/",
-    "test:integration": "NODE_ENV=test yarn migrate && jest ./tests/integration/ --runInBand",
+    "test:integration": "jest ./tests/integration/ --runInBand",
     "test:coverage": "jest ./tests --coverage",
     "build": "tsc --build",
     "start": "NODE_ENV=production node dist/index.js"

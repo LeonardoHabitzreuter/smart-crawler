@@ -27,7 +27,7 @@ Esta api é responsável por buscar informações no site da [Smart MEI](https:/
   ```
 A aplicação rodará o playground na porta [3000](http://localhost:3000)
 
-### *Em modo de produção*
+### *Em modo produção*
 
 + **Utilizando o yarn**
   ```

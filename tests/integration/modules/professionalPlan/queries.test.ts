@@ -1,49 +1,38 @@
 import 'reflect-metadata'
 import 'dotenv/config'
-import createServer from '../../helpers/createServer'
-import '../../helpers/mocks'
-import { clear, closeConnection } from '../../helpers/db'
+import { mockServer } from '../../../helpers/mocks'
+import { shouldBe } from '../../../helpers/assert'
 
-const CREATE_PRODUCT = /* GraphQL */ `
-  mutation createProduct($input: ProductInput!){
-    createProduct(input: $input)
-  }
-`
-
-const GET_PRODUCT = /* GraphQL */ `
-  query product($filter: ProductFilter!) {
-    product(filter: $filter) {
-      name
-      stock
+const GET_PROFESSIONAL_PLAN = /* GraphQL */ `
+  query professionalPlan($filter: ProfessionalPlanFilter!) {
+    professionalPlan(filter: $filter) {
+      queryDate
+      transferDescription
+      transferPrice {
+        BRL
+        USD
+        EUR
+      }
     }
   }
 `
 
-describe('create and query a product', () => {
-  beforeEach(clear)
-  afterAll(closeConnection)
+describe('professionalPlan query', () => {
+  test('should return professional plan data from smartMEI website', async () => {
+    const { query } = mockServer()
 
-  test('should create a product and return its data', async () => {
-    const { mutate, query } = await createServer()
-    const product = {
-      name: 'Product',
-      stock: 8
-    }
-
-    const productRequest = await mutate({
-      mutation: CREATE_PRODUCT,
-      variables: { input: product }
-    })
-
-    const productId = productRequest.data?.createProduct
-
-    const getProduct = await query({
-      query: GET_PRODUCT,
+    const response = await query({
+      query: GET_PROFESSIONAL_PLAN,
       variables: { filter: {
-        id: productId
+        siteUrl: 'https://www.smartmei.com.br'
       } }
     })
+    
+    const { transferDescription, transferPrice, queryDate } = response.data?.professionalPlan
 
-    expect(getProduct.data?.product).toMatchObject(product)
+    expect(transferDescription).toBe('https://www.smartmei.com.br')
+    expect(transferPrice.BRL).toBeGreaterThan(transferPrice.EUR)
+    expect(transferPrice.BRL).toBeGreaterThan(transferPrice.USD)
+    shouldBe(new Date(queryDate), new Date())
   })
 })

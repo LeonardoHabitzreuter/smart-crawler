@@ -5,5 +5,6 @@ module.exports = {
     '^~/common(.*)$': '<rootDir>/src/common/$1',
     '^~/lib(.*)$': '<rootDir>/src/lib/$1'
   },
-  collectCoverageFrom: ['src/**/*.ts']
+  collectCoverageFrom: ['src/**/*.ts'],
+  testTimeout: 10000
 }
