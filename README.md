@@ -11,23 +11,28 @@ Esta api é responsável por buscar informações no site da [Smart MEI](https:/
   yarn
   ```
 
-+ **Então rode o comando para subir a api**
++ **Então rode o comando para subir a api e o redis**
   ```
-  yarn dev
+  docker-compose up -d
   ```
 
-  Ou, se preferir usar o docker:
+  Ou, se preferir usar o yarn:
   ```
-  docker image build -t smart-crawler -f dev.Dockerfile .
+  docker-compose up -d db
   ```
   ```
-  make run-dev
+  yarn dev
   ```
 A aplicação rodará o playground na porta [3000](http://localhost:3000)
 
 ### *Em modo produção*
 
-+ **Utilizando o yarn**
++ **Primeiro, suba o container do redis**
+  ```
+  docker-compose up -d db
+  ```
+
++ **Então rode a api com o yarn**
   ```
   yarn
   ```
@@ -59,15 +64,16 @@ A aplicação estará rodando na porta [3000](http://localhost:3000)
 
 + ### Testes de integração
   ```
+  docker-compose up -d db
+  ```
+  ```
   yarn test:integration
   ```
 
 + ### Cobertura dos testes
   ```
+  docker-compose up -d db
+  ```
+  ```
   yarn test:coverage
   ```
-
----
-
-## Decisão técnica:
-Ao fazer alguns testes reparei que o tempo de processamento do crawler não está satisfatório, então decidi criar a branch [cached-crawler](https://github.com/LeonardoHabitzreuter/smart-crawler/tree/cached-crawler). Nesta branch existe uma schedule para rodar o crawler uma vez por dia, o resultado é mantido em cache no redis.

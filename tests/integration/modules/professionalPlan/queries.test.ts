@@ -1,11 +1,13 @@
 import 'reflect-metadata'
 import 'dotenv/config'
+import { flow } from 'fp-ts/lib/function'
+import { startSchedule, stopSchedule, closeDBConnection } from '../../../helpers/hooks'
 import { mockServer } from '../../../helpers/mocks'
 import { shouldBe } from '../../../helpers/assert'
 
 const GET_PROFESSIONAL_PLAN = /* GraphQL */ `
-  query professionalPlan($filter: ProfessionalPlanFilter!) {
-    professionalPlan(filter: $filter) {
+  query {
+    professionalPlan {
       queryDate
       transferDescription
       transferPrice {
@@ -18,15 +20,16 @@ const GET_PROFESSIONAL_PLAN = /* GraphQL */ `
 `
 
 describe('professionalPlan query', () => {
+  beforeAll(startSchedule)
+  afterAll(flow(
+    closeDBConnection,
+    stopSchedule
+  ))
+
   test('should return professional plan data from smartMEI website', async () => {
     const { query } = mockServer()
 
-    const response = await query({
-      query: GET_PROFESSIONAL_PLAN,
-      variables: { filter: {
-        siteUrl: 'https://www.smartmei.com.br'
-      } }
-    })
+    const response = await query({ query: GET_PROFESSIONAL_PLAN })
     
     const { transferDescription, transferPrice, queryDate } = response.data?.professionalPlan
 

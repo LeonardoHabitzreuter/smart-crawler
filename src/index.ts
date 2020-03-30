@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import 'dotenv/config'
 import './configAliases'
-import startSchedule from './cronjob'
+import { start as startSchedule } from './cronjob'
 import { ApolloServer, toApolloError } from 'apollo-server'
 import { GraphQLError } from 'graphql'
 import { schema } from './modules/index'
