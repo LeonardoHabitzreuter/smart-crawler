@@ -11,7 +11,7 @@ const loadData = <T>(fn: OnLoad<T>) => {
 
   setInterval(
     () => loader.clearAll(),
-    parseInt(CLEAR_DATALOADER_INTERVAL)
+    parseInt(CLEAR_DATALOADER_INTERVAL, 10)
   )
 
   return loader
