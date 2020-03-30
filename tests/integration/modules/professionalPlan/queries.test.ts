@@ -1,9 +1,12 @@
 import 'reflect-metadata'
 import 'dotenv/config'
+import { JSDOM } from 'jsdom'
 import { flow } from 'fp-ts/lib/function'
 import { startSchedule, stopSchedule, closeDBConnection } from '../../../helpers/hooks'
 import { mockServer } from '../../../helpers/mocks'
 import { shouldBe } from '../../../helpers/assert'
+
+JSDOM.fromURL = () => JSDOM.fromFile('tests/assets/SmartMEI.html')
 
 const GET_PROFESSIONAL_PLAN = /* GraphQL */ `
   query {
