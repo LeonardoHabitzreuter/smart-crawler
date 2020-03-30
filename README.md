@@ -4,8 +4,6 @@ Esta api é responsável por buscar informações no site da [Smart MEI](https:/
 
 ## Rodando a aplicação:
 
----
-
 ### *Em modo desenvolvimento*
 
 + **Instale as dependências**
@@ -68,3 +66,8 @@ A aplicação estará rodando na porta [3000](http://localhost:3000)
   ```
   yarn test:coverage
   ```
+
+---
+
+## Decisão técnica:
+Ao fazer alguns testes reparei que o tempo de processamento do crawler não está satisfatório, então decidi criar a branch [cached-crawler](https://github.com/LeonardoHabitzreuter/smart-crawler/tree/cached-crawler). Nesta branch existe uma schedule para rodar o crawler uma vez por dia, o resultado é mantido em cache no redis.
