@@ -70,4 +70,4 @@ A aplicação estará rodando na porta [3000](http://localhost:3000)
 ---
 
 ## Decisão técnica:
-O tempo de processamento do crawler um tanto custoso, então decidi criar a branch [cached-crawler](https://github.com/LeonardoHabitzreuter/smart-crawler/tree/cached-crawler). Nesta branch existe uma schedule para rodar o crawler uma vez por dia, o resultado é mantido em cache no redis.
+O tempo de processamento do crawler é um tanto custoso, então decidi criar a branch [cached-crawler](https://github.com/LeonardoHabitzreuter/smart-crawler/tree/cached-crawler). Nesta branch existe uma schedule para rodar o crawler uma vez por dia, o resultado é mantido em cache no redis.
