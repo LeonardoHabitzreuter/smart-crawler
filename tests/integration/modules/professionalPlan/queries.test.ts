@@ -1,7 +1,10 @@
 import 'reflect-metadata'
 import 'dotenv/config'
+import { JSDOM } from 'jsdom'
 import { mockServer } from '../../../helpers/mocks'
 import { shouldBe } from '../../../helpers/assert'
+
+JSDOM.fromURL = () => JSDOM.fromFile('tests/assets/SmartMEI.html')
 
 const GET_PROFESSIONAL_PLAN = /* GraphQL */ `
   query professionalPlan($filter: ProfessionalPlanFilter!) {
@@ -27,7 +30,7 @@ describe('professionalPlan query', () => {
         siteUrl: 'https://www.smartmei.com.br'
       } }
     })
-    
+
     const { transferDescription, transferPrice, queryDate } = response.data?.professionalPlan
 
     expect(transferDescription).toBe('https://www.smartmei.com.br')
