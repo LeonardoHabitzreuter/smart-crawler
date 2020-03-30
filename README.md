@@ -77,3 +77,8 @@ A aplicação estará rodando na porta [3000](http://localhost:3000)
   ```
   yarn test:coverage
   ```
+
+---
+
+## Decisão técnica:
+Lendo a documentação da [api de conversões de moedas](https://github.com/exchangeratesapi/exchangeratesapi#load-in-initial-data--scheduler) vi que a mesma não é atualizada a cada ocorrência de variação de moeda, e sim apenas uma vez por dia. Sendo assim utilizei um dataloader que armazena a resposta da api e limpa o cache apenas uma vez por dia.
