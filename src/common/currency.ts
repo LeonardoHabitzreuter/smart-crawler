@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import { get } from '~/lib/request'
 
 const CURRENCY_API = 'https://api.exchangeratesapi.io/latest'
 
@@ -10,11 +10,11 @@ type CurrencyAPIResponse = {
 }
 
 const BRLToCurrency = (value: number) => (currency: number) => (
-  Number.parseFloat((value / currency).toFixed(2))
+  Number.parseFloat((value * currency).toFixed(2))
 )
 
 export const convertBRLValue = async (value: number) => {
-  const { data } = await Axios.get<CurrencyAPIResponse>(CURRENCY_API, {
+  const { data } = await get<CurrencyAPIResponse>(CURRENCY_API, {
     params: {
       base: 'BRL',
       symbols: 'EUR,USD'
