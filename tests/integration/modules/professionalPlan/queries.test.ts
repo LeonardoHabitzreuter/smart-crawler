@@ -36,7 +36,7 @@ describe('professionalPlan query', () => {
     
     const { transferDescription, transferPrice, queryDate } = response.data?.professionalPlan
 
-    expect(transferDescription).toBe('https://www.smartmei.com.br')
+    expect(transferDescription).toBe('Transferência')
     expect(transferPrice.BRL).toBeGreaterThan(transferPrice.EUR)
     expect(transferPrice.BRL).toBeGreaterThan(transferPrice.USD)
     shouldBe(new Date(queryDate), new Date())
