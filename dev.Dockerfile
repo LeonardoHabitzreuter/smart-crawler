@@ -1,7 +1,9 @@
 FROM mhart/alpine-node:12.13
-COPY package.json /app/package.json
-COPY nodemon.json /app/nodemon.json
-COPY src /app/src
 WORKDIR /app
-EXPOSE 3007
+COPY tsconfig.json tsconfig.json
+COPY package.json package.json
+COPY nodemon.json nodemon.json
+COPY yarn.lock yarn.lock
+COPY src src
+EXPOSE 3000
 CMD ["yarn", "dev"]

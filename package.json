@@ -7,13 +7,13 @@
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "dev": "nodemon src/index.ts",
     "test": "jest ./tests/unit/",
-    "test:createdb": "NODE_ENV=test sequelize-cli db:create",
     "test:integration": "NODE_ENV=test yarn migrate && jest ./tests/integration/ --runInBand",
-    "test:coverage": "yarn test --coverage",
+    "test:coverage": "jest ./tests --coverage",
     "build": "tsc --build",
     "start": "NODE_ENV=production node dist/index.js"
   },
   "dependencies": {
+    "@types/jsdom": "^16.2.0",
     "@types/module-alias": "^2.0.0",
     "apollo-server": "^2.9.16",
     "axios": "^0.19.2",
@@ -24,20 +24,19 @@
     "jsdom": "^16.2.1",
     "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
-    "type-graphql": "^0.17.6"
+    "type-graphql": "^0.17.6",
+    "typescript": "^3.7.3"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/graphql": "^14.5.0",
     "@types/jest": "^24.0.23",
-    "@types/jsdom": "^16.2.0",
     "@types/node": "^12.12.18",
     "apollo-server-testing": "2.9.16",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "ts-jest": "^25.2.0",
     "ts-node": "^8.5.4",
-    "tslint": "^6.0.0",
-    "typescript": "^3.7.3"
+    "tslint": "^6.0.0"
   }
 }
