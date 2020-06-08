@@ -1,4 +1,4 @@
-import { fold, map, flatten } from 'fp-ts/lib/Option'
+import { fold, chain } from 'fp-ts/lib/Option'
 import { lookup } from 'fp-ts/lib/Array'
 import { flow } from 'fp-ts/lib/function'
 import { fromURL, querySelectorAll, querySelector, trimInnerHTML } from '~/lib/crawler'
@@ -10,11 +10,11 @@ import { ProfessionalPlanFilter } from './typeDefs'
 
 const getTransferRow = querySelectorAll('#tarifas-2 > .row')
 
-const getTransferPriceDiv = map(
+const getTransferPriceDiv = chain(
   querySelector('.tarifas-2-2-2')
 )
 
-const getTransferTitleDiv = map(
+const getTransferTitleDiv = chain(
   querySelector('.cell-small-title')
 )
 
@@ -43,13 +43,8 @@ export const find = async (filters: ProfessionalPlanFilter): Promise<Professiona
     getTransferRow(document)
   ))
 
-  const transferPriceDiv = flatten(
-    getTransferPriceDiv(transferRow)
-  )
-
-  const transferTitleDiv = flatten(
-    getTransferTitleDiv(transferRow)
-  )
+  const transferPriceDiv = getTransferPriceDiv(transferRow)
+  const transferTitleDiv = getTransferTitleDiv(transferRow)
 
   const transferPrice = getTransferPrice(transferPriceDiv)
   const transferDescription = getTransferTitle(transferTitleDiv)
