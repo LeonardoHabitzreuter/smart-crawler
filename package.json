@@ -22,7 +22,7 @@
     "fp-ts": "^2.5.3",
     "graphql": "^14.5.8",
     "husky": "^4.2.1",
-    "jsdom": "^16.2.1",
+    "jsdom": "^16.5.0",
     "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.6",
