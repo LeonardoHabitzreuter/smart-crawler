@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/jsdom": "^16.2.0",
     "@types/module-alias": "^2.0.0",
-    "apollo-server": "^2.9.16",
+    "apollo-server": "^2.25.4",
     "axios": "^0.19.2",
     "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
